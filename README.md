@@ -1,7 +1,4 @@
-# Simple Chatbot using Ponder with Pipecat
-
-
-<img src="image.png" width="420px">
+# Simple Conversational Bot using Ponder with Pipecat
 
 A FastAPI server that manages a bot instance built with Daily, Pipecat and Ponder's TTS Service
 
