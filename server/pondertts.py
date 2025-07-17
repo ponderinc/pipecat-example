@@ -9,6 +9,11 @@ import uuid
 from typing import AsyncGenerator, Optional
 import websockets
 from loguru import logger
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 from pipecat.frames.frames import (
     CancelFrame,
@@ -38,9 +43,9 @@ class PonderTTSService(InterruptibleTTSService):
     def __init__(
         self,
         *,
-        api_key: str,
         voice_id: str,
         sample_rate: Optional[int] = None,
+        api_key: Optional[str] = None,
         **kwargs,
     ):
         """Initialize the Ponder WebSocket TTS service.
@@ -57,7 +62,10 @@ class PonderTTSService(InterruptibleTTSService):
             **kwargs,
         )
 
-        self._api_key = api_key
+        self._api_key = api_key or os.getenv("PONDER_API_KEY")
+        if not self._api_key:
+            raise ValueError("PONDER_API_KEY is not set. add it to your .env file")
+        
         self._base_url = "inf.useponder.ai" # <-- can also be your self-hosted Ponder instance
         self._websocket_url = f"wss://{self._base_url}/v1/ws/tts?api_key={api_key}&voice_id={voice_id}"
         self._receive_task = None

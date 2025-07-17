@@ -133,7 +133,6 @@ async def main():
         )
 
         tts = PonderTTSService(
-            api_key=os.getenv("PONDER_API_KEY"),
             voice_id="68669d8c70694146ffa6cdc3",
         )
 
